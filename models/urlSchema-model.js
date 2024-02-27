@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 
 const urlSchema = new mongoose.Schema({
-    shortId : {
+    shortId : { //xyz
         type: String,
         required: true,
         unique : true,
     },
-    redirectURL : {
+    redirectURL : { //g.com
         type: String,
         required : true
     },
