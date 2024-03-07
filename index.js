@@ -4,7 +4,7 @@ const path = require("path")
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const { connectDB } = require("./connect");
-const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
+const { checkForAuthentication, restrictTo } = require("./middlewares/auth");
 
 
 const urlRoute = require("./routes/url-routes");
@@ -23,11 +23,12 @@ app.set("views", path.resolve("./views"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(checkForAuthentication)
 
 
-app.use("/url", restrictToLoggedinUserOnly, urlRoute);
+app.use("/url", restrictTo(['NORMAL']), urlRoute);
 app.use("/user", userRoute);
-app.use("/", checkAuth, staticRoute);
+app.use("/", staticRoute);
 
 
 app.listen(3000, ()=> { console.log(`Server started at port ${PORT}`);})
